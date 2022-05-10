@@ -15,7 +15,9 @@
             <property name="hibernate.show_sql" value="true"/> <!--실제 실행쿼리 표시-->
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.use_sql_comments" value="true"/>
-            <!--<property name="hibernate.hbm2ddl.auto" value="create" />-->
+            <!--table drop 등으로 위험하므로 개발(local) 외에서는 create, create-drop, update 절대로 써서는 안된다!!!-->
+            <property name="hibernate.hbm2ddl.auto" value="none" /> <!--운영은 none, validate-->
+
         </properties>
     </persistence-unit>
 </persistence>
