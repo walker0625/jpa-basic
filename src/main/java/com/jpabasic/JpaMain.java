@@ -22,14 +22,15 @@ public class JpaMain {
 
         try {
 
-            List<Member> findMembers = em.createQuery("SELECT m FROM Member AS m", Member.class) // jpql > 객체를 대상으로 쿼리, sql > 테이블을 대상으로 쿼리
-                                         .setFirstResult(5).setMaxResults(8) // paging(mysql, oracle 방언에 맞게 sql을 만듬)
-                                         .getResultList();
+            //List<Member> findMembers = em.createQuery("SELECT m FROM Member AS m", Member.class) // jpql > 객체를 대상으로 쿼리, sql > 테이블을 대상으로 쿼리
+            //                             .setFirstResult(5).setMaxResults(8) // paging(mysql, oracle 방언에 맞게 sql을 만듬)
+            //                             .getResultList();
             
             // 비영속
-            // Member member = new Member();
-            // member.setId(1);
-            // member.setName("minwoo");
+             Member member = new Member();
+             member.setName("minwoo");
+
+             em.persist(member);
 
             // 영속
             // (DB 저장 순간이 아님 - 쿼리가 동작하는 시점이 아님)
@@ -46,8 +47,10 @@ public class JpaMain {
 
             // 삭제
             // em.remove(1L);
-            em.flush(); // flush(쿼리가 동작하는 시점)
-            tx.commit(); // 변경 내용 확정
+
+            // em.flush(); // flush(쿼리가 동작하는 시점)
+
+            tx.commit(); // 변경 내용 확정(flush도 동작)
         } catch (Exception e) {
             tx.rollback();
         } finally {
