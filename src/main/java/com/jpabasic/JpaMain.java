@@ -27,10 +27,39 @@ public class JpaMain {
             //                             .getResultList();
             
             // 비영속
-             Member member = new Member();
-             member.setName("minwoo");
+            Team teamA = new Team();
+            teamA.setName("A");
+            em.persist(teamA);
 
-             em.persist(member);
+            Member member = new Member();
+            member.setName("minwoo");
+            member.changeTeam(teamA); // 연관관계 편의메소드는 set > change
+            em.persist(member);
+            
+            // 양방향 매핑
+            // 읽기 전용이라 db에 변경이 적용되지는 않는다 > null
+            // 하지만 영속성 컨텍스트에는 적용되므로 양방향의 경우 둘 다 넣어줘야 1차 캐시에서 조회 가능 & Test Code 활용 가능
+            // Member의 setter에서 처리
+            // toString(lombok 사용시 주의)/json 생성 라이브러리(controller 반환시 entity 지양(json 변환됨)) 생성시 무한루프 위험 주의 > 
+            // teamA.getMembers().add(member);
+
+            /* 
+            em.flush();
+            em.clear();
+
+            Member findMember = em.find(Member.class, member.getId());
+            List<Member> members = findMember.getTeam().getMembers();
+
+            for (Member member1 : members) {
+                System.out.println("memberName = " + member1.getName());
+            }
+
+            Team team = em.find(Team.class, teamA.getId());
+            List<Member> members1 = team.getMembers();
+
+            for (Member member1 : members1) {
+                System.out.println("member1.getName() = " + member1.getName());
+            }
 
             // 영속
             // (DB 저장 순간이 아님 - 쿼리가 동작하는 시점이 아님)
@@ -49,6 +78,9 @@ public class JpaMain {
             // em.remove(1L);
 
             // em.flush(); // flush(쿼리가 동작하는 시점)
+
+             */
+
 
             tx.commit(); // 변경 내용 확정(flush도 동작)
         } catch (Exception e) {
