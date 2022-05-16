@@ -21,7 +21,21 @@ public class JpaMain {
         tx.begin();
 
         try {
+            Child child1 = new Child();
+            Child child2 = new Child();
 
+            Parent parent1 = new Parent();
+            parent1.addChild(child1);
+            parent1.addChild(child2);
+
+            em.persist(parent1); // child는 영속화하지 않아도 cascade 옵션으로 영속화 됨
+
+            em.flush();
+            em.clear();
+
+            Parent findParent = em.find(Parent.class, parent1.getId());
+            //findParent.getChildList().remove(0);
+            em.remove(findParent); // 부모를 지우면 자식도 함께 삭제됨
             //List<Member> findMembers = em.createQuery("SELECT m FROM Member AS m", Member.class) // jpql > 객체를 대상으로 쿼리, sql > 테이블을 대상으로 쿼리
             //                             .setFirstResult(5).setMaxResults(8) // paging(mysql, oracle 방언에 맞게 sql을 만듬)
             //                             .getResultList();

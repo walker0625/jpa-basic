@@ -2,14 +2,12 @@ package com.jpabasic;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Data
 @Entity
 public class Child {
-
+    @Id @GeneratedValue
     private Long id;
     private String name;
 
