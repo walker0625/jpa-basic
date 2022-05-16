@@ -22,7 +22,9 @@ public class Member {
     @Column(name = "USERNAME")
     private String name;
 
-    @ManyToOne // MemberToTeam
+    @ManyToOne(fetch = FetchType.LAZY)  // MemberToTeam,
+                                        // 실무에서는 LAZY가 강력하게 권장됨! > 일단 다 LAZY로 설정(ManoToOne, @OneToOne)하고 필요하면 fetch join
+                                        // 1. EAGER로 하면 불필요한 조인(10개면?) 부하가 심할 수 있음 2. JPQL 시 N+1 문제 발생
     @JoinColumn(name = "TEAM_ID") // 외래키가 생성됨
     private Team team; // 연관관계의 주인은 Member(외래키가 있는 있는 객체(N : 다)를 주인으로 삼는 것이 권장됨! > 1. 결국 바뀌는 것은 외래키의 값이므로 2. 성능 이슈)
 

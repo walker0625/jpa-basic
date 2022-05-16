@@ -25,17 +25,7 @@ public class JpaMain {
             //List<Member> findMembers = em.createQuery("SELECT m FROM Member AS m", Member.class) // jpql > 객체를 대상으로 쿼리, sql > 테이블을 대상으로 쿼리
             //                             .setFirstResult(5).setMaxResults(8) // paging(mysql, oracle 방언에 맞게 sql을 만듬)
             //                             .getResultList();
-            
-            // 비영속
-            Team teamA = new Team();
-            teamA.setName("A");
-            em.persist(teamA);
 
-            Member member = new Member();
-            member.setName("minwoo");
-            member.changeTeam(teamA); // 연관관계 편의메소드는 set > change
-            em.persist(member);
-            
             // 양방향 매핑
             // 읽기 전용이라 db에 변경이 적용되지는 않는다 > null
             // 하지만 영속성 컨텍스트에는 적용되므로 양방향의 경우 둘 다 넣어줘야 1차 캐시에서 조회 가능 & Test Code 활용 가능
